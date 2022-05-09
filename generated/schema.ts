@@ -11,7 +11,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class ExampleEntity extends Entity {
+export class Ticket extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -19,18 +19,18 @@ export class ExampleEntity extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save ExampleEntity entity without an ID");
+    assert(id != null, "Cannot save Ticket entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type ExampleEntity must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Ticket must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("ExampleEntity", id.toString(), this);
+      store.set("Ticket", id.toString(), this);
     }
   }
 
-  static load(id: string): ExampleEntity | null {
-    return changetype<ExampleEntity | null>(store.get("ExampleEntity", id));
+  static load(id: string): Ticket | null {
+    return changetype<Ticket | null>(store.get("Ticket", id));
   }
 
   get id(): string {
@@ -42,30 +42,115 @@ export class ExampleEntity extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get count(): BigInt {
-    let value = this.get("count");
+  get tokenPurchases(): Array<string> {
+    let value = this.get("tokenPurchases");
+    return value!.toStringArray();
+  }
+
+  set tokenPurchases(value: Array<string>) {
+    this.set("tokenPurchases", Value.fromStringArray(value));
+  }
+
+  get tokenPurchasesLength(): i32 {
+    let value = this.get("tokenPurchasesLength");
+    return value!.toI32();
+  }
+
+  set tokenPurchasesLength(value: i32) {
+    this.set("tokenPurchasesLength", Value.fromI32(value));
+  }
+}
+
+export class TokenPurchase extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TokenPurchase entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TokenPurchase must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TokenPurchase", id.toString(), this);
+    }
+  }
+
+  static load(id: string): TokenPurchase | null {
+    return changetype<TokenPurchase | null>(store.get("TokenPurchase", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get ticket(): string {
+    let value = this.get("ticket");
+    return value!.toString();
+  }
+
+  set ticket(value: string) {
+    this.set("ticket", Value.fromString(value));
+  }
+
+  get owner(): string {
+    let value = this.get("owner");
+    return value!.toString();
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
     return value!.toBigInt();
   }
 
-  set count(value: BigInt) {
-    this.set("count", Value.fromBigInt(value));
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
   }
 
-  get _callingContract(): Bytes {
-    let value = this.get("_callingContract");
-    return value!.toBytes();
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value!.toBigInt();
   }
 
-  set _callingContract(value: Bytes) {
-    this.set("_callingContract", Value.fromBytes(value));
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get _callerToken(): Bytes {
-    let value = this.get("_callerToken");
-    return value!.toBytes();
+  get length(): BigInt {
+    let value = this.get("length");
+    return value!.toBigInt();
   }
 
-  set _callerToken(value: Bytes) {
-    this.set("_callerToken", Value.fromBytes(value));
+  set length(value: BigInt) {
+    this.set("length", Value.fromBigInt(value));
+  }
+
+  get soldAt(): BigInt | null {
+    let value = this.get("soldAt");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set soldAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("soldAt");
+    } else {
+      this.set("soldAt", Value.fromBigInt(<BigInt>value));
+    }
   }
 }
