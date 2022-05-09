@@ -1,0 +1,6 @@
+type ExampleEntity @entity {
+  id: ID!
+  count: BigInt!
+  _callingContract: Bytes! # address
+  _callerToken: Bytes! # address
+}
