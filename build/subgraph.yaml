@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: VaultFactory
@@ -30,7 +30,7 @@ dataSources:
         - VaultFeesDistributed
       abis:
         - name: VaultFactory
-          file: ./abis/VaultFactory.json
+          file: VaultFactory/abis/VaultFactory.json
       eventHandlers:
         - event: AccountClosed(address,address,uint256,uint256,uint256,uint256,uint256,address,address)
           handler: handleAccountClosed
@@ -60,4 +60,4 @@ dataSources:
           handler: handleVaultCreated
         - event: VaultFeesDistributed(address,address,uint256,uint256,uint256)
           handler: handleVaultFeesDistributed
-      file: ./src/mapping.ts
+      file: VaultFactory/VaultFactory.wasm

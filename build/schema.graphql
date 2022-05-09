@@ -1,0 +1,14 @@
+type Ticket @entity {
+  id: ID!
+  tokenPurchases: [TokenPurchase!]!
+}
+
+type TokenPurchase @entity {
+  id: ID!
+  ticket: ID!
+  owner: ID!
+  amount: BigInt!
+  timestamp: BigInt!
+  length: BigInt!
+  soldAt: BigInt
+}

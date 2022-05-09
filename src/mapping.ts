@@ -45,6 +45,8 @@ export function handleTokensPurchased(event: TokensPurchased): void {
   let ticket = Ticket.load(ticketId);
   if (!ticket) {
     ticket = new Ticket(ticketId);
+    ticket.tokenPurchases = [];
+    ticket.save();
     // generate first tokenPurchase entity
     const tokenPurchaseId = `${ticketId}/0`;
     const tokenPurchase = new TokenPurchase(tokenPurchaseId);
@@ -61,7 +63,7 @@ export function handleTokensPurchased(event: TokensPurchased): void {
     tokenPurchases.push(tokenPurchase.id);
     ticket.tokenPurchases = tokenPurchases;
   } else {
-    const tokenPurchaseId = `${ticketId}/${ticket.tokenPurchasesLength}`;
+    const tokenPurchaseId = `${ticketId}/${ticket.tokenPurchases.length}`;
     const tokenPurchase = new TokenPurchase(tokenPurchaseId);
     tokenPurchase.ticket = ticket.id;
     tokenPurchase.amount = event.params.amounts;
