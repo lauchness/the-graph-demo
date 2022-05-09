@@ -1,6 +1,14 @@
-type ExampleEntity @entity {
+type Ticket @entity {
   id: ID!
-  count: BigInt!
-  _callingContract: Bytes! # address
-  _callerToken: Bytes! # address
+  tokenPurchases: [TokenPurchase!]!
+}
+
+type TokenPurchase @entity {
+  id: ID!
+  ticket: ID!
+  owner: ID!
+  amount: BigInt!
+  timestamp: BigInt!
+  length: BigInt!
+  soldAt: BigInt
 }
